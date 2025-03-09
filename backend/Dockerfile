@@ -1,3 +1,4 @@
+# Исправленный Dockerfile
 FROM golang:1.24 AS builder
 
 WORKDIR /app
@@ -7,13 +8,17 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o main .
+# Собираем статический бинарник для Alpine
+RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
-FROM alpine
+# Используем минимальный образ Alpine
+FROM alpine:3.19
 
-WORKDIR /root/
+WORKDIR /app
 
+# Копируем бинарник и устанавливаем права ДО CMD
 COPY --from=builder /app/main .
+RUN chmod +x main
 
 EXPOSE 8080
 

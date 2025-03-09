@@ -15,7 +15,11 @@ export default {
 </script>
 
 <style>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
-  font-family: Arial, sans-serif;
+  @apply bg-gray-100;
 }
 </style>

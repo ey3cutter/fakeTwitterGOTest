@@ -55,14 +55,22 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    networks:
+      - app-network
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    build: ./frontend
     ports:
-      - "3000:80"
+      - "3000:80"  # Исправлено: внешний порт 3000 → внутренний 80
+    networks:
+      - app-network
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
   cassandra_data:
+
+networks:
+  app-network:
+    driver: bridge

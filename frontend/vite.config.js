@@ -1,13 +1,15 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import { resolve } from 'path';
 
 export default defineConfig({
     plugins: [vue()],
-    root: '.', // Указывает корень проекта (по умолчанию это текущая директория)
+    root: resolve(__dirname, 'src'),
     build: {
-        outDir: 'dist', // Папка для сборки
+        outDir: resolve(__dirname, 'dist'),
+        emptyOutDir: true,
         rollupOptions: {
-            input: './public/index.html', // Указываем путь к index.html
-        },
-    },
+            input: resolve(__dirname, 'src/main.js')
+        }
+    }
 });
