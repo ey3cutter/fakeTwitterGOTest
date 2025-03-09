@@ -4,11 +4,14 @@ WORKDIR /app
 COPY package*.json .
 RUN npm install --force
 
-# Копируем ВСЕ файлы проекта
-COPY . .
+# Копируем конфиг PostCSS
+COPY postcss.config.cjs ./
+COPY tailwind.config.cjs ./
+COPY public/ ./public/
+COPY src/ ./src/
+COPY vite.config.mjs ./
 
-# Проверка структуры перед сборкой
-RUN ls -la src/main.js && npm run build
+RUN npm run build
 
 FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
