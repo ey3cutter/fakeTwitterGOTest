@@ -1,13 +1,14 @@
 FROM node:lts-alpine AS builder
 
 WORKDIR /app
-COPY package*.json ./
+COPY package*.json .
 RUN npm install --force
+
+# Копируем ВСЕ файлы проекта
 COPY . .
-RUN npm run build
+
+# Проверка структуры перед сборкой
+RUN ls -la src/main.js && npm run build
 
 FROM nginx:alpine
-# Удалить ВСЕ дефолтные файлы Nginx
-RUN rm -rf /usr/share/nginx/html/*
 COPY --from=builder /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
