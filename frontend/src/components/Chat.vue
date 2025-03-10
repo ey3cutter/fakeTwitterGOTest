@@ -1,5 +1,6 @@
 <template>
   <div class="chat-container">
+    <h1>Chat is working!</h1>
     <div class="messages">
       <div v-for="(msg, index) in messages" :key="index" class="message">
         {{ msg }}
